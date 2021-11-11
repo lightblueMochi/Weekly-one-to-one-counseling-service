@@ -1,15 +1,23 @@
 #include <iostream>
+#include <cstring>
 #include<stdlib.h>
 #include<iomanip>
-using namespace  std;
+#include<string.h>
 #include "function.h"
+using namespace  std;
+
 
 int main() {
   
   //variables
   int choice_1,choice_2;
-  NodePtr head = NULL;
-
+  NodePtr head_m = NULL;
+  NodePtr head_t = NULL;
+  NodePtr head_w = NULL;
+  NodePtr head_th = NULL;
+  NodePtr head_f = NULL;
+  NodePtr head_s = NULL;
+  
   do{
     
   do{
@@ -27,7 +35,7 @@ int main() {
     case 1:
         cout<<"You are a student"<<endl;
         choice_2 = instruction_student();
-        switchcase_student(choice_2,head);
+        switchcase_student(choice_2,head_m,head_t,head_w,head_th,head_f,head_s);
         //cout<<choice_2<<endl;
         
         cout<<endl;
@@ -36,7 +44,7 @@ int main() {
     case 2:
         cout<<"You are a professor"<<endl;
         choice_2 = instruction_professor();
-        switchcase_professor(choice_2,head);
+        switchcase_professor(choice_2,head_m,head_t,head_w,head_th,head_f,head_s);
         //cout<<choice_2<<endl;
         cout<<endl;
         break;
