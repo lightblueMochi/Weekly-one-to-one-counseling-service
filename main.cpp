@@ -13,6 +13,7 @@ int main() {
   do{
     
   do{
+  cout<<"====================="<<endl;
   cout<<"Choose your option"<<endl;
   cout<<"1.Student"<<endl;
   cout<<"2.Professor"<<endl;

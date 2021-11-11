@@ -15,7 +15,7 @@ struct professor {
   string phone;
   string email;
   string name;
-  //hi
+  
 };
 
 struct section {
@@ -119,8 +119,8 @@ void create_time(NodePtr &head){
     newPtr->roomNumber = input_room;
     newPtr->status = "available";
     
-    while(currentPtr!=NULL && input_endhr<=currentPtr->start_hr){
-      if(input_endhr==currentPtr->start_hr&&input_endmin>currentPtr->start_min) break;
+    while(currentPtr!=NULL && input_endhr>=currentPtr->start_hr){
+      if(input_endhr==currentPtr->start_hr&&input_endmin<=currentPtr->start_min) break;
       else{
         previousPtr = currentPtr;                
          currentPtr = currentPtr->next;
