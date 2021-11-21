@@ -9,9 +9,9 @@ using namespace  std;
 
 int instruction_student();
 void switchcase_student(int, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &);
-void switchcase_professor(int, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &);
+void switchcase_professor(int, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, string, string, string);
 void create_node(NodePtr &,string, string, string, string, string, int, int, int, int, int);
-void create_time(NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &);
+void create_time(NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, string, string, string);
 int delete_node(NodePtr &, int);
 int delete_time(NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &);
 void display(NodePtr, NodePtr, NodePtr, NodePtr, NodePtr, NodePtr);
@@ -79,17 +79,24 @@ void create_node(NodePtr &head,string input_name, string input_email, string inp
   }
 }
 
-void create_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s){
+void create_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s, string name,  string email, string phone){
   string input_name, input_email, input_phone, input_room, input_day;
   int input_sectionID, input_starthr, input_startmin, input_endhr, input_endmin, i;
   char yn;
 
+/*
   cout<<"Name: ";
   cin>>input_name;
   cout<<"Email: ";
   cin>>input_email;
   cout<<"Phone: ";
   cin>>input_phone;
+*/
+
+  input_name = name;
+  input_email = email;
+  input_phone = phone;
+  
 
   do{
     cout<<"Section ID: ";
@@ -114,22 +121,22 @@ void create_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &hea
     }
     */
     
-    if(input_day == "monday"){
+    if(input_day == "mon"){
       create_node(head_m, input_name, input_email, input_phone, input_day, input_room, input_sectionID, input_starthr, input_startmin, input_endhr, input_endmin); 
     }
-    else if(input_day == "tuesday"){
+    else if(input_day == "tue"){
       create_node(head_t, input_name, input_email, input_phone, input_day, input_room, input_sectionID, input_starthr, input_startmin, input_endhr, input_endmin); 
       }
-    else if(input_day == "wednesday"){
+    else if(input_day == "wed"){
       create_node(head_w, input_name, input_email, input_phone, input_day, input_room, input_sectionID, input_starthr, input_startmin,input_endhr, input_endmin); 
       }
-    else if(input_day == "thursday"){
+    else if(input_day == "thu"){
       create_node(head_th, input_name, input_email, input_phone, input_day, input_room, input_sectionID, input_starthr, input_startmin, input_endhr, input_endmin); 
       }
-    else if(input_day == "friday"){
+    else if(input_day == "fri"){
       create_node(head_f,input_name, input_email, input_phone, input_day, input_room, input_sectionID, input_starthr, input_startmin, input_endhr, input_endmin); 
       }
-    else if(input_day == "saturday"){
+    else if(input_day == "sat"){
       create_node(head_s, input_name, input_email, input_phone, input_day, input_room, input_sectionID, input_starthr, input_startmin, input_endhr, input_endmin); 
     }
   
@@ -271,10 +278,10 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
   }
 }
 
-void switchcase_professor(int choice, NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s){
+void switchcase_professor(int choice, NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s, string name, string email, string phone){
   int deleted;
   switch(choice){
-    case 1: create_time(head_m, head_t, head_w, head_th, head_f, head_s);
+    case 1: create_time(head_m, head_t, head_w, head_th, head_f, head_s, name, email, phone);
             break;
     case 2: deleted = delete_time(head_m, head_t, head_w, head_th, head_f, head_s);
             if(deleted>0) cout<<"Deleted section "<<deleted<<" successfully."<<endl;
