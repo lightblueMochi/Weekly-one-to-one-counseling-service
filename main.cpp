@@ -3,20 +3,22 @@
 #include<stdlib.h>
 #include<iomanip>
 #include<string.h>
-#include "function.h"
+#include <fstream>
+#include "manageslot.h"
 using namespace  std;
 
 
 int main() {
   
   //variables
-  int choice_1,choice_2;
+  int choice_1,choice_2,input_password;
   NodePtr head_m = NULL;
   NodePtr head_t = NULL;
   NodePtr head_w = NULL;
   NodePtr head_th = NULL;
   NodePtr head_f = NULL;
   NodePtr head_s = NULL;
+
   
   do{
     
@@ -42,6 +44,10 @@ int main() {
         break;
     
     case 2:
+        cout<<"Enter password: ";
+        cin>>input_password;
+        ifstream password(password.txt);
+        if(input)
         cout<<"You are a professor"<<endl;
         choice_2 = instruction_professor();
         switchcase_professor(choice_2,head_m,head_t,head_w,head_th,head_f,head_s);

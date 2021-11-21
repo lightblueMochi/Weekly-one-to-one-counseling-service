@@ -1,44 +1,11 @@
 #include <iostream>
 #include <cstring>
-#include<stdlib.h>
-#include<iomanip>
-#include<string.h>
+#include <stdlib.h>
+#include <iomanip>
+#include <string.h>
+#include "node.h"
+
 using namespace  std;
-
-struct student {
-
-  int id;
-  string name;
-
-};
-
-struct professor {
-
-  string phone;
-  string email;
-  string name;
-  
-};
-
-struct section {
-
-  struct student s;
-  struct professor p;
-  int section_id;
-  int start_hr;
-  int start_min;
-  int finish_hr;
-  int finish_min;
-  string day;
-  string roomNumber;
-  string status;
-
-  struct section *next;
-  struct section *previous;
-
-};
-
-typedef section* NodePtr;
 
 int instruction_student();
 void switchcase_student(int, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &);
@@ -53,21 +20,6 @@ int book_time(NodePtr, NodePtr, NodePtr, NodePtr, NodePtr, NodePtr);
 int findncancel(NodePtr, int, int);
 int cancel_booking(NodePtr, NodePtr, NodePtr, NodePtr, NodePtr, NodePtr);
 
-
-int instruction_student(){
-  int choice_2;
-  cout<<endl;
-  do{
-  cout<<"Choose your option:"<<endl;
-  cout<<"1.Book the time"<<endl;
-  cout<<"2.Cancel booking"<<endl;
-  cout<<"3.Display the time slot"<<endl;
-  cout<<"4.Exit"<<endl;
-  cout<<"Your option: ";
-  cin>>choice_2;
-  }while(choice_2!=1&&choice_2!=2&&choice_2!=3&&choice_2!=4);
-  return choice_2;
-}
 
 int instruction_professor(){
   int choice_2;
@@ -319,6 +271,36 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
   }
 }
 
+void switchcase_professor(int choice, NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s){
+  int deleted;
+  switch(choice){
+    case 1: create_time(head_m, head_t, head_w, head_th, head_f, head_s);
+            break;
+    case 2: deleted = delete_time(head_m, head_t, head_w, head_th, head_f, head_s);
+            if(deleted>0) cout<<"Deleted section "<<deleted<<" successfully."<<endl;
+            else cout<<"This section doesn't exist"<<endl;
+            break;
+    case 3: display(head_m, head_t, head_w, head_th, head_f, head_s);
+            break;
+    default: break;
+  }
+}
+
+int instruction_student(){
+  int choice_2;
+  cout<<endl;
+  do{
+  cout<<"Choose your option:"<<endl;
+  cout<<"1.Book the time"<<endl;
+  cout<<"2.Cancel booking"<<endl;
+  cout<<"3.Display the time slot"<<endl;
+  cout<<"4.Exit"<<endl;
+  cout<<"Your option: ";
+  cin>>choice_2;
+  }while(choice_2!=1&&choice_2!=2&&choice_2!=3&&choice_2!=4);
+  return choice_2;
+}
+
 int findnbook(NodePtr head, int input_sectionID, string input_name, int input_studentID){
   NodePtr currentPtr = head;
   while(currentPtr->next!=NULL){
@@ -435,20 +417,5 @@ void switchcase_student(int choice, NodePtr &head_m, NodePtr &head_t, NodePtr &h
             break;
     default: break;
     
-  }
-}
-
-void switchcase_professor(int choice, NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s){
-  int deleted;
-  switch(choice){
-    case 1: create_time(head_m, head_t, head_w, head_th, head_f, head_s);
-            break;
-    case 2: deleted = delete_time(head_m, head_t, head_w, head_th, head_f, head_s);
-            if(deleted>0) cout<<"Deleted section "<<deleted<<" successfully."<<endl;
-            else cout<<"This section doesn't exist"<<endl;
-            break;
-    case 3: display(head_m, head_t, head_w, head_th, head_f, head_s);
-            break;
-    default: break;
   }
 }
