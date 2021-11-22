@@ -152,6 +152,7 @@ int delete_node(NodePtr &head, int input_sectionID){
   NodePtr previousPtr;
   NodePtr tempPtr;
 
+  if(head){
   if(input_sectionID==head->section_id){
     tempPtr = head;
     head = head->next;
@@ -171,12 +172,14 @@ int delete_node(NodePtr &head, int input_sectionID){
     if(currentPtr){
       tempPtr = currentPtr;
       currentPtr = currentPtr->next;
-      currentPtr->previous = previousPtr;
+      if(currentPtr) currentPtr->previous = previousPtr;
       previousPtr->next = currentPtr;
       delete tempPtr;
       return 1;
     }
   }
+  }
+  else return 0;
 }
 
 int delete_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s){
@@ -187,7 +190,7 @@ int delete_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head
   NodePtr tempPtr;
   */
 
-  cout<<"What is the section ID that you want to delete?"<<endl;
+  cout<<"What is the section ID that you want to delete?: ";
   cin>>input_sectionID;
   
  
@@ -204,13 +207,15 @@ int delete_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head
 
 void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, NodePtr head_f, NodePtr head_s){
   NodePtr currentPtr = head_m;
-  if(currentPtr==NULL){
+  if(!head_m && !head_t && !head_w && !head_th && !head_f && !head_s){
     cout<<"Time slot is empty"<<endl;
   }
   else{
     cout<<"===Time slot==="<<endl;
-    cout<<"-Monday-"<<endl;
+    
     while(currentPtr!=NULL){
+    cout<<"-Monday-"<<endl;
+
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
@@ -220,8 +225,10 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     }
     
     currentPtr = head_t;
-    cout<<"-Tuesday-"<<endl;
+    
     while(currentPtr!=NULL){
+    cout<<"-Tuesday-"<<endl;
+
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
@@ -231,8 +238,10 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     }
 
     currentPtr = head_w;
-    cout<<"-Wednesday-"<<endl;
+    
     while(currentPtr!=NULL){
+    cout<<"-Wednesday-"<<endl;
+
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
@@ -242,8 +251,10 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     }
 
     currentPtr = head_th;
-    cout<<"-Thursday-"<<endl;
+    
     while(currentPtr!=NULL){
+    cout<<"-Thursday-"<<endl;
+
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
@@ -253,8 +264,10 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     }
 
     currentPtr = head_f;
-    cout<<"-Friday-"<<endl;
+    
     while(currentPtr!=NULL){
+    cout<<"-Friday-"<<endl;
+
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
@@ -264,8 +277,10 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     }
       
     currentPtr = head_s;
-    cout<<"-Saturday-"<<endl;
+    
     while(currentPtr!=NULL){
+    cout<<"-Saturday-"<<endl;
+    
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;

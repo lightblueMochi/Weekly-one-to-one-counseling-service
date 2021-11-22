@@ -55,16 +55,19 @@ int main() {
               password>>name;
               password>>email;
               password>>phone;
+              password.close();
           }
-          else continue;
+          else{
+            continue;
           }
-        if(pass=="\n"){
+        }
+        if(pass!=input_password){
+          password.close();
           cout<<"Password Incorrect"<<endl;
           break;
         }
         else{ 
           cout<<"You are a professor"<<endl;
-          password.close();
           choice_2 = instruction_professor();
           switchcase_professor(choice_2,head_m,head_t,head_w,head_th,head_f,head_s, name, email, phone);
         //cout<<choice_2<<endl;
