@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <iomanip>
 #include <string.h>
+#include <cstdlib>
+#include <ctime>
 #include "node.h"
 
 using namespace  std;
@@ -12,8 +14,8 @@ void switchcase_student(int, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr
 void switchcase_professor(int, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, string, string, string);
 void create_node(NodePtr &,string, string, string, string, string, int, int, int, int, int);
 void create_time(NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, string, string, string);
-int delete_node(NodePtr &, int);
-int delete_time(NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &);
+int delete_node(NodePtr &, int, string);
+int delete_time(NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, NodePtr &, string);
 void display(NodePtr, NodePtr, NodePtr, NodePtr, NodePtr, NodePtr);
 int findncancel(NodePtr, int, int);
 int book_time(NodePtr, NodePtr, NodePtr, NodePtr, NodePtr, NodePtr);
@@ -37,6 +39,7 @@ int instruction_professor(){
 }
 
 void create_node(NodePtr &head,string input_name, string input_email, string input_phone, string input_day, string input_room, int input_sectionID, int input_starthr, int input_startmin, int input_endhr, int input_endmin){
+  
   NodePtr newPtr = new section;
   NodePtr currentPtr = head;
   NodePtr previousPtr = NULL;
@@ -84,23 +87,15 @@ void create_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &hea
   int input_sectionID, input_starthr, input_startmin, input_endhr, input_endmin, i;
   char yn;
 
-/*
-  cout<<"Name: ";
-  cin>>input_name;
-  cout<<"Email: ";
-  cin>>input_email;
-  cout<<"Phone: ";
-  cin>>input_phone;
-*/
-
   input_name = name;
   input_email = email;
   input_phone = phone;
   
-
   do{
-    cout<<"Section ID: ";
-    cin>>input_sectionID;
+    
+    srand(time(NULL));
+    input_sectionID = rand()%999+100;
+
     cout<<"Day of the week(mon-sat): ";
     cin>>input_day;
     cout<<"Start at"<<endl;
@@ -116,10 +111,6 @@ void create_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &hea
     cout<<"Room number: ";
     cin>>input_room;
 
-    /*for(i=0;i<strlen(input_day);i++){
-      input_day[i]=tolower(input_day[i]);
-    }
-    */
     
     if(input_day == "mon"){
       create_node(head_m, input_name, input_email, input_phone, input_day, input_room, input_sectionID, input_starthr, input_startmin, input_endhr, input_endmin); 
@@ -147,13 +138,13 @@ void create_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &hea
   }while(yn=='y');
 }
 
-int delete_node(NodePtr &head, int input_sectionID){
+int delete_node(NodePtr &head, int input_sectionID, string name){
   NodePtr currentPtr;
   NodePtr previousPtr;
   NodePtr tempPtr;
 
   if(head){
-  if(input_sectionID==head->section_id){
+  if(input_sectionID==head->section_id && name==head->p.name){
     tempPtr = head;
     head = head->next;
     if(head) head->previous = NULL;
@@ -164,7 +155,7 @@ int delete_node(NodePtr &head, int input_sectionID){
     previousPtr = head;
     currentPtr = head->next;
 
-    while(currentPtr!=NULL && currentPtr->section_id!=input_sectionID){
+    while(currentPtr!=NULL && currentPtr->section_id!=input_sectionID && name!=currentPtr->p.name){
       previousPtr = currentPtr;
       currentPtr = currentPtr->next;
     }
@@ -182,24 +173,25 @@ int delete_node(NodePtr &head, int input_sectionID){
   else return 0;
 }
 
-int delete_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s){
-  //display();
+int delete_time(NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s, string name){
+
   int input_sectionID;
   /*NodePtr currentPtr;
   NodePtr previousPtr;
   NodePtr tempPtr;
   */
+  display(head_m,head_t,head_w,head_th,head_f,head_s);
 
   cout<<"What is the section ID that you want to delete?: ";
   cin>>input_sectionID;
   
  
-  if(delete_node(head_m,input_sectionID)>0) return input_sectionID;
-  else if(delete_node(head_t,input_sectionID)>0) return input_sectionID;
-  else if(delete_node(head_w,input_sectionID)>0) return input_sectionID;
-  else if(delete_node(head_th,input_sectionID)>0) return input_sectionID;
-  else if(delete_node(head_f,input_sectionID)>0) return input_sectionID;
-  else if(delete_node(head_s,input_sectionID)>0) return input_sectionID;
+  if(delete_node(head_m,input_sectionID,name)>0) return input_sectionID;
+  else if(delete_node(head_t,input_sectionID,name)>0) return input_sectionID;
+  else if(delete_node(head_w,input_sectionID,name)>0) return input_sectionID;
+  else if(delete_node(head_th,input_sectionID,name)>0) return input_sectionID;
+  else if(delete_node(head_f,input_sectionID,name)>0) return input_sectionID;
+  else if(delete_node(head_s,input_sectionID,name)>0) return input_sectionID;
   else return 0;
   
   
@@ -217,6 +209,7 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     cout<<"-Monday-"<<endl;
 
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
+    cout<<"Room number: "<<currentPtr->roomNumber<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
     cout<<"Status: "<<currentPtr->status<<endl;
@@ -230,6 +223,7 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     cout<<"-Tuesday-"<<endl;
 
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
+    cout<<"Room number: "<<currentPtr->roomNumber<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
     cout<<"Status: "<<currentPtr->status<<endl;
@@ -243,6 +237,7 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     cout<<"-Wednesday-"<<endl;
 
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
+    cout<<"Room number: "<<currentPtr->roomNumber<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
     cout<<"Status: "<<currentPtr->status<<endl;
@@ -256,6 +251,7 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     cout<<"-Thursday-"<<endl;
 
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
+    cout<<"Room number: "<<currentPtr->roomNumber<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
     cout<<"Status: "<<currentPtr->status<<endl;
@@ -269,6 +265,7 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     cout<<"-Friday-"<<endl;
 
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
+    cout<<"Room number: "<<currentPtr->roomNumber<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
     cout<<"Status: "<<currentPtr->status<<endl;
@@ -282,6 +279,7 @@ void display(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, No
     cout<<"-Saturday-"<<endl;
     
     cout<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<" - "<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
+    cout<<"Room number: "<<currentPtr->roomNumber<<endl;
     cout<<"Section ID: "<<currentPtr->section_id<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
     cout<<"Status: "<<currentPtr->status<<endl;
@@ -298,9 +296,9 @@ void switchcase_professor(int choice, NodePtr &head_m, NodePtr &head_t, NodePtr 
   switch(choice){
     case 1: create_time(head_m, head_t, head_w, head_th, head_f, head_s, name, email, phone);
             break;
-    case 2: deleted = delete_time(head_m, head_t, head_w, head_th, head_f, head_s);
+    case 2: deleted = delete_time(head_m, head_t, head_w, head_th, head_f, head_s, name);
             if(deleted>0) cout<<"Deleted section "<<deleted<<" successfully."<<endl;
-            else cout<<"This section doesn't exist"<<endl;
+            else cout<<"This section doesn't exist or you may try to delete the wrong section"<<endl;
             break;
     case 3: display(head_m, head_t, head_w, head_th, head_f, head_s);
             break;
@@ -340,6 +338,7 @@ int findnbook(NodePtr head, int input_sectionID, string input_name, int input_st
     cout<<"You successfully booked Section ID:"<<currentPtr->section_id<<endl;
     cout<<"Day: "<<currentPtr->day<<endl;
     cout<<"Time: "<<setfill('0')<<setw(2)<<currentPtr->start_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->start_min<<"-"<<setfill('0')<<setw(2)<<currentPtr->finish_hr<<":"<<setfill('0')<<setw(2)<<currentPtr->finish_min<<endl;
+    cout<<"Room number: "<<currentPtr->roomNumber<<endl;
     cout<<"Professor "<<currentPtr->p.name<<endl;
     cout<<"Email: "<<currentPtr->p.email<<endl;
     cout<<"Phone: "<<currentPtr->p.phone<<endl;
@@ -363,8 +362,13 @@ int book_time(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, N
   cin>>input_studentID;
   //cout<<input_studentID<<endl;
 
-  cout<<" "<<endl;
+  cout<<endl;
   display(head_m,head_t,head_w,head_th,head_f,head_s);
+
+  if(head_m==NULL && head_t==NULL && head_w==NULL && head_th==NULL && head_f==NULL && head_s==NULL){
+    cout<<"Returning to main menu"<<endl;
+  }
+  else{
   
   cout<<"Enter section ID that you want to reserve: ";
   cin>>input_sectionID;
@@ -377,6 +381,7 @@ int book_time(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_th, N
   else if(findnbook(head_s,input_sectionID,input_name,input_studentID)>0) return 1;
   else return 0;
   
+  }
 }
 
 int findncancel(NodePtr head, int input_sectionID, int input_studentID){
@@ -412,17 +417,23 @@ int cancel_booking(NodePtr head_m, NodePtr head_t, NodePtr head_w, NodePtr head_
   int input_studentID,input_sectionID;
   //NodePtr currentPtr = head;
   
-  cout<<"Section ID: ";
-  cin>>input_sectionID;
+  display(head_m,head_t,head_w,head_th,head_f,head_s);
   
-  if(findncancel(head_m,input_sectionID,input_studentID)>0) return input_sectionID;
-  else if(findncancel(head_t,input_sectionID,input_studentID)>0) return 1;
-  else if(findncancel(head_w,input_sectionID,input_studentID)>0) return 1;
-  else if(findncancel(head_th,input_sectionID,input_studentID)>0) return 1;
-  else if(findncancel(head_f,input_sectionID,input_studentID)>0) return 1;
-  else if(findncancel(head_s,input_sectionID,input_studentID)>0) return 1;
-  else return 0;
+  if(head_m==NULL && head_t==NULL && head_w==NULL && head_th==NULL && head_f==NULL && head_s==NULL){
+    cout<<"Returning to main menu"<<endl;
+  }
+  else{
+    cout<<"Section ID: ";
+    cin>>input_sectionID;
   
+    if(findncancel(head_m,input_sectionID,input_studentID)>0) return input_sectionID;
+    else if(findncancel(head_t,input_sectionID,input_studentID)>0) return 1;
+    else if(findncancel(head_w,input_sectionID,input_studentID)>0) return 1;
+    else if(findncancel(head_th,input_sectionID,input_studentID)>0) return 1;
+    else if(findncancel(head_f,input_sectionID,input_studentID)>0) return 1;
+    else if(findncancel(head_s,input_sectionID,input_studentID)>0) return 1;
+    else return 0;
+  }
 }
 
 void switchcase_student(int choice, NodePtr &head_m, NodePtr &head_t, NodePtr &head_w, NodePtr &head_th, NodePtr &head_f, NodePtr &head_s){
@@ -441,3 +452,10 @@ void switchcase_student(int choice, NodePtr &head_m, NodePtr &head_t, NodePtr &h
     
   }
 }
+
+/*
+Issue:
+1: Booking a non-exist section = core dumped
+2:
+
+*/
