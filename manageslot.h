@@ -59,8 +59,8 @@ void create_node(NodePtr &head,string input_name, string input_email, string inp
     newPtr->roomNumber = input_room;
     newPtr->status = "available";
     
-    while(currentPtr!=NULL && input_endhr>=currentPtr->start_hr){
-      if(input_endhr==currentPtr->start_hr&&input_endmin<=currentPtr->start_min) break;
+    while(currentPtr!=NULL && input_starthr>=currentPtr->start_hr){
+      if(input_starthr==currentPtr->start_hr&&input_startmin<=currentPtr->start_hr) break;
       else{
         previousPtr = currentPtr;                
          currentPtr = currentPtr->next;

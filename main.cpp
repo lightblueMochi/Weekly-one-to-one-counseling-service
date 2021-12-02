@@ -67,7 +67,7 @@ int main() {
           break;
         }
         else{ 
-          cout<<"You are a professor"<<endl;
+          cout<<"Welcome Professor "<<name<<endl;
           choice_2 = instruction_professor();
           switchcase_professor(choice_2,head_m,head_t,head_w,head_th,head_f,head_s, name, email, phone);
         //cout<<choice_2<<endl;
